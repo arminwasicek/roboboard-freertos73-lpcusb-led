@@ -348,6 +348,34 @@ int VCOM_getchar(void)
 	return c;
 }
 
+/**
+ *  fgets() reads in at most one less  than  size  characters  from
+       stream  and stores them into the buffer pointed to by s.  Read‐
+       ing stops after an EOF or a newline.  If a newline is read,  it
+       is  stored  into the buffer.  A terminating null byte ('\0') is
+       stored after the last character in the buffer.
+ *
+ */
+char *VCOM_fgets(char *s, int size)
+{
+	int i;
+	unsigned char c;
+
+	for(i=0; i<size-2; i++)
+	{
+		/* Block the task until a character is available. */
+		xQueueReceive( xRxedChars, &c, portMAX_DELAY );
+		*(s+i)=c;
+		if(c=='\n')
+		{
+			break;
+		}
+		*(s+i+1)='\0';
+	}
+	return s;
+}
+
+
 
 /**
 	Interrupt handler

@@ -12,6 +12,6 @@
 
 int VCOM_putchar(int c);
 int VCOM_getchar(void);
-
+char *VCOM_fgets(char *s, int size);
 
 #endif /* USB_VCOM_H_ */
