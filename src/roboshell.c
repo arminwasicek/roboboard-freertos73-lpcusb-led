@@ -12,5 +12,6 @@ unsigned int scan(Scanner *s, Token *t)
 	s=s;
 	t=t;
 
+
 	return 0;
 }

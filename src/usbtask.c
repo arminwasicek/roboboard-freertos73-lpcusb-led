@@ -6,12 +6,16 @@
  */
 
 #include "usb_vcom.h"
+#include "roboshell.h"
 
 #define INCREMENT_ECHO_BY 2
 
 
 void usbsubtask(void)
 {
+	Scanner s;
+	Token t;
+
 	int c;
 	// echo any character received (do USB stuff in interrupt)
 	for( ;; )
