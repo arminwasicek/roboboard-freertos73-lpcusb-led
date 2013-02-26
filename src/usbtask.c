@@ -10,13 +10,15 @@
 
 #define INCREMENT_ECHO_BY 2
 
+static int in[64];
 
 void usbsubtask(void)
 {
 	Scanner s;
 	Token t;
 
-	int c;
+	int c, i=0;
+
 	// echo any character received (do USB stuff in interrupt)
 	for( ;; )
 	{
@@ -26,6 +28,14 @@ void usbsubtask(void)
 			// Echo character back with INCREMENT_ECHO_BY offset, so for example if
 			// INCREMENT_ECHO_BY is 1 and 'A' is received, 'B' will be echoed back.
 			VCOM_putchar(c + INCREMENT_ECHO_BY );
+			in[i]=c;
+
+			if(c==0xd)               //return key
+			{
+				VCOM_putchar('\r');  //carriage return
+				VCOM_putchar(0x0a);  //line feed
+				i=0;
+			}
 		}
 	}
 }
