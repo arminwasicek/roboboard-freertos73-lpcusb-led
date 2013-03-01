@@ -348,6 +348,18 @@ int VCOM_getchar(void)
 	return c;
 }
 
+int VCOM_puts(const char *s)
+{
+	int i=0;
+
+	while(*(s+i)!='\0')
+	{
+		VCOM_putc(*(s+i));
+		i++;
+	}
+	return i;
+}
+
 /**
  *  fgets() reads in at most one less  than  size  characters  from
        stream  and stores them into the buffer pointed to by s.  Read‐
@@ -471,7 +483,7 @@ void vUSBTask( void *pvParameters )
 	USBHwConnect(TRUE);
 
 	/* Execute the vcom data habdling loop*/
-	usbsubtask();
+	roboshelltask();
 
 }
 

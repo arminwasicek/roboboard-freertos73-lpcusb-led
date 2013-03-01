@@ -105,8 +105,17 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="com.crt.advproject.config.exe.debug.358435974.658298564" name="/" resourcePath="src/FreeRTOS-Plus-IO">
+						<toolChain id="com.crt.advproject.toolchain.exe.debug.924371170" name="Code Red MCU Tools" superClass="com.crt.advproject.toolchain.exe.debug" unusedChildren="">
+							<tool id="com.crt.advproject.cpp.exe.debug.1044848995" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug.1468083840"/>
+							<tool id="com.crt.advproject.gcc.exe.debug.1707726529" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.496871390"/>
+							<tool id="com.crt.advproject.gas.exe.debug.787554019" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug.152194393"/>
+							<tool id="com.crt.advproject.link.cpp.exe.debug.1717738487" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug.696640668"/>
+							<tool id="com.crt.advproject.link.exe.debug.1029912969" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug.1514106711"/>
+						</toolChain>
+					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_4.c|webserver/httpd-fsdata.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS-Plus-IO|FreeRTOS/portable/MemMang/heap_4.c|webserver/httpd-fsdata.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
