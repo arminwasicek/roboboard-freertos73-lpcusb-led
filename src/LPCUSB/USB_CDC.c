@@ -352,9 +352,9 @@ int VCOM_puts(const char *s)
 {
 	int i=0;
 
-	while(*(s+i)!='\0')
+	while(s[i]!='\0')
 	{
-		VCOM_putc(*(s+i));
+		VCOM_putchar(s[i]);
 		i++;
 	}
 	return i;

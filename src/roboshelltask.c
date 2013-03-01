@@ -11,7 +11,7 @@
 #define INCREMENT_ECHO_BY 2
 #define INBUFLEN  64
 
-static int inbuf[INBUFLEN];
+static char inbuf[INBUFLEN];
 
 static const char * const pcWelcomeMessage = ( char * ) "FreeRTOS command server.\r\nType Help to view a list of registered commands.\r\n\r\n>";
 
@@ -25,7 +25,9 @@ void roboshelltask(void)
 
 	int c, n, i=0;
 
-	s.curpos=inbuf;
+	//s.curpos=inbuf;
+
+	VCOM_puts(pcWelcomeMessage);
 
 	// echo any character received (do USB stuff in interrupt)
 	for( ;; )
@@ -60,6 +62,9 @@ void roboshelltask(void)
 			case 0xd  :  // return key
 				VCOM_putchar('\r');  //carriage return
 				VCOM_putchar(0x0a);  //line feed
+				inbuf[i]='\r';
+				inbuf[i+1]=0xa;
+				VCOM_puts((char*)inbuf);
 				i=0;
 				cli_process_command((char*)inbuf, i);
 				memset(inbuf, 0, INBUFLEN);
@@ -69,7 +74,6 @@ void roboshelltask(void)
 				// save to input buffer
 				inbuf[i]=c;
 				i++;
-				inbuf[i]='\0';
 			}//switch
 		}//if
 	}//for
