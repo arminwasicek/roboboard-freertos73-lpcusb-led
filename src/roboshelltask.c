@@ -61,7 +61,7 @@ void roboshelltask(void)
 				inbuf[i+1]=0xa;
 				VCOM_puts((char*)inbuf);
 				i=0;
-				cli_process_command((char*)inbuf, i);
+				//cli_process_command((char*)inbuf, i);
 				memset(inbuf, 0, INBUFLEN);
 				break;
 
@@ -74,13 +74,4 @@ void roboshelltask(void)
 	}//for
 }
 
-int cli_process_command(char *command, size_t len)
-{
-	//CLI_Scanner_t s;
-	//CLI_Token_t t;
-	//s.curpos=inbuf;
-
-
-	return 0;
-}
 
