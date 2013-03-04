@@ -137,7 +137,7 @@ int main( void )
 	mcpwm_init();
 
     /* Create the USB task. */
-    xTaskCreate( vUSBTask, ( signed char * ) "USB", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vUSBTask, ( signed char * ) "USB", 2*configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vLEDTask, ( signed char * ) "LED", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vMCPWMTask, ( signed char * ) "PWM", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
 

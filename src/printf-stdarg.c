@@ -25,7 +25,9 @@
 
 */
 
-#define putchar(c) c
+#include "usb_vcom.h"
+
+#define putchar(c) VCOM_putchar(c)
 
 #include <stdarg.h>
 

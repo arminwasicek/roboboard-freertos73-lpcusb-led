@@ -13,19 +13,14 @@
 
 static char inbuf[INBUFLEN];
 
-static const char * const pcWelcomeMessage = ( char * ) "FreeRTOS command server.\r\nType Help to view a list of registered commands.\r\n\r\n>";
+static const char * const pcWelcomeMessage = ( char * ) "Welcome to FreeRTOS.\r\n";
 
 int cli_process_command(char *command, size_t len);
 
 
 void roboshelltask(void)
 {
-	Scanner s;
-	Token t;
-
-	int c, n, i=0;
-
-	//s.curpos=inbuf;
+	int c, i=0;
 
 	VCOM_puts(pcWelcomeMessage);
 
@@ -81,6 +76,11 @@ void roboshelltask(void)
 
 int cli_process_command(char *command, size_t len)
 {
+	//CLI_Scanner_t s;
+	//CLI_Token_t t;
+	//s.curpos=inbuf;
+
+
 	return 0;
 }
 
