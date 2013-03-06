@@ -96,3 +96,23 @@ int CLI_process(int argc, char **argv)
 	return 0;
 }
 
+int CMD_read_adc(int argc, char *argv[], char *outs[], size_t *outl)
+{
+	unsigned int v=0, c=0;
+
+	if(argc!=2)
+		return -1;
+
+
+	c = atoi(argv[1]);
+	ADCValue[c] = ADCRead( c );
+	while ( !ADCIntDone );
+	ADCIntDone = 0;
+	v = ADCValue[c];
+
+	sprintf(*outs, "adc=%d\r\n\0", v);
+
+	*outl=sizeof(outs);
+
+	return *outl;
+}

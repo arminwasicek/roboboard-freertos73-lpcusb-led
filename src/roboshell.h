@@ -10,8 +10,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <portmacro.h>
+
+#include "adc.h"
 
 
 /********** DEFINITIONS **********************/
