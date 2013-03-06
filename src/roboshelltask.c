@@ -15,8 +15,6 @@ static char inbuf[INBUFLEN];
 
 static const char * const pcWelcomeMessage = ( char * ) "Welcome to FreeRTOS.\r\n";
 
-int cli_process_command(char *command, size_t len);
-
 
 void roboshelltask(void)
 {

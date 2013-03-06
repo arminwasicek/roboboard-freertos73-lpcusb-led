@@ -257,7 +257,7 @@ ResetISR(void) {
           "        blt     zero_loop");
 
 #ifdef __USE_CMSIS
-	SystemInit();
+    SystemInit();
 #endif
 
 #if defined (__cplusplus)

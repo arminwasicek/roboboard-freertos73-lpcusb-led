@@ -33,6 +33,7 @@
 									<listOptionValue builtIn="false" value="ALIGN_STRUCT_END=__attribute\(\(aligned\(4\)\)\)"/>
 									<listOptionValue builtIn="false" value="__CODE_RED"/>
 									<listOptionValue builtIn="false" value="__REDLIB__"/>
+									<listOptionValue builtIn="false" value="__USE_CMSIS=CMSISv2p00_LPC17xx"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.644577272" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -fno-builtin -ffunction-sections -Wextra" valueType="string"/>
 								<option id="gnu.c.compiler.option.preprocessor.nostdinc.242908842" name="Do not search system directories (-nostdinc)" superClass="gnu.c.compiler.option.preprocessor.nostdinc"/>
@@ -44,6 +45,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/drivers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/FreeRTOS/portable/GCC/ARM_CM3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CMSISv2p00_LPC17xx/inc}&quot;"/>
 								</option>
 								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.352418875" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level"/>
 								<option id="gnu.c.compiler.option.optimization.flags.1797615292" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags"/>
@@ -87,8 +89,12 @@
 								<option id="gnu.c.link.option.nodeflibs.638645680" name="Do not use default libraries (-nodefaultlibs)" superClass="gnu.c.link.option.nodeflibs"/>
 								<option id="gnu.c.link.option.strip.195880545" name="Omit all symbol information (-s)" superClass="gnu.c.link.option.strip"/>
 								<option id="gnu.c.link.option.noshared.2075727134" name="No shared libraries (-static)" superClass="gnu.c.link.option.noshared"/>
-								<option id="gnu.c.link.option.libs.103012550" name="Libraries (-l)" superClass="gnu.c.link.option.libs"/>
-								<option id="gnu.c.link.option.paths.1400704377" name="Library search path (-L)" superClass="gnu.c.link.option.paths"/>
+								<option id="gnu.c.link.option.libs.103012550" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="CMSISv2p00_LPC17xx"/>
+								</option>
+								<option id="gnu.c.link.option.paths.1400704377" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CMSISv2p00_LPC17xx/Debug}&quot;"/>
+								</option>
 								<option id="gnu.c.link.option.ldflags.1447780175" name="Linker flags" superClass="gnu.c.link.option.ldflags"/>
 								<option id="gnu.c.link.option.userobjs.1395709820" name="Other objects" superClass="gnu.c.link.option.userobjs"/>
 								<option id="gnu.c.link.option.shared.2052162401" name="Shared (-shared)" superClass="gnu.c.link.option.shared"/>
@@ -103,15 +109,6 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="com.crt.advproject.config.exe.debug.358435974.658298564" name="/" resourcePath="src/FreeRTOS-Plus-IO">
-						<toolChain id="com.crt.advproject.toolchain.exe.debug.924371170" name="Code Red MCU Tools" superClass="com.crt.advproject.toolchain.exe.debug" unusedChildren="">
-							<tool id="com.crt.advproject.cpp.exe.debug.1044848995" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug.1468083840"/>
-							<tool id="com.crt.advproject.gcc.exe.debug.1707726529" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.496871390"/>
-							<tool id="com.crt.advproject.gas.exe.debug.787554019" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug.152194393"/>
-							<tool id="com.crt.advproject.link.cpp.exe.debug.1717738487" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug.696640668"/>
-							<tool id="com.crt.advproject.link.exe.debug.1029912969" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug.1514106711"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>

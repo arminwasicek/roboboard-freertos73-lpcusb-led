@@ -100,6 +100,9 @@
 #include "task.h"
 #include "led.h"
 #include "mcpwm.h"
+#include "adc.h"
+
+#include "system_LPC17xx.h"
 
 /*-----------------------------------------------------------*/
 
@@ -130,11 +133,13 @@ extern void vMCPWMTask( void *pvParameters );
 
 int main( void )
 {
+	SystemCoreClockUpdate();
 
 	/* Configure the hardware for use by this demo. */
 	prvSetupHardware();
 	led_init();
 	mcpwm_init();
+	ADCInit(ADC_CLK);
 
     /* Create the USB task. */
     xTaskCreate( vUSBTask, ( signed char * ) "USB", 2*configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
