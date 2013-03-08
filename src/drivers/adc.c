@@ -168,7 +168,7 @@ void ADCInit( uint32_t ADC_Clk )
 *****************************************************************************/
 uint32_t ADCRead( uint8_t channelNum )
 {
-  const volatile uint32_t *adcdata = &LPC_ADC->ADDR0;
+  //const volatile uint32_t *adcdata = &LPC_ADC->ADDR0;
 
   /* channel number is 0 through 7 */
   if ( channelNum >= ADC_NUM )

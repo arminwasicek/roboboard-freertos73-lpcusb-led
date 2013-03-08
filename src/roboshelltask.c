@@ -5,8 +5,10 @@
  *      Author: armin
  */
 
+#include "FreeRTOS.h"
 #include "usb_vcom.h"
 #include "roboshell.h"
+
 
 #define INCREMENT_ECHO_BY 2
 #define INBUFLEN  64
@@ -18,7 +20,20 @@ static const char * const pcWelcomeMessage = ( char * ) "Welcome to FreeRTOS.\r\
 
 void roboshelltask(void)
 {
+	CLI_Command_Callback_Definition_t *cmd;
+	char argvbuf[64];
+	char *argvbufp[16];
+	int argcbuf;
 	int c, i=0;
+
+	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
+
+	cmd->command_str="getadc";
+	cmd->command_func=CMD_read_adc;
+	cmd->help_str="usage: getadc <xhannel>";
+	cmd->parameter_count=1;
+
+	CLI_register(cmd);
 
 	VCOM_puts(pcWelcomeMessage);
 
@@ -59,7 +74,7 @@ void roboshelltask(void)
 				inbuf[i+1]=0xa;
 				VCOM_puts((char*)inbuf);
 				i=0;
-				//cli_process_command((char*)inbuf, i);
+				CLI_parse(inbuf, argvbufp, &argcbuf, argvbuf);
 				memset(inbuf, 0, INBUFLEN);
 				break;
 

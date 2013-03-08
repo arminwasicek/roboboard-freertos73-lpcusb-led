@@ -22,7 +22,7 @@ int CLI_register(CLI_Command_Callback_Definition_t *cd)
 	CLI_Command_Callback_List_Item_t *n, *p=command_list_head;
 
 	// Insert new element
-	n=(CLI_Command_Callback_List_Item_t *)malloc(sizeof(CLI_Command_Callback_List_Item_t *));
+	n=(CLI_Command_Callback_List_Item_t *)pvPortMalloc(sizeof(CLI_Command_Callback_List_Item_t *));
 	n->command=cd;
 	n->next=NULL;
 
@@ -49,15 +49,15 @@ int CLI_parse(char *s, char **argv, int *argc, char *buffer)
 	memset(argv, 0, sizeof(argv));
 	memset(buffer, 0, sizeof(buffer));
 
-	while(*e!='\0')
+	while((*e!='\0') && (*e!='\r') && (*e!='\n'))
 	{
 		e++;  n++;
-		if(((*e==' ') || (*e=='\0')) && (b!=e))
+		if(((*e==' ') || (*e=='\0') || (*e=='\r') || (*e=='\n')) && (b!=e))
 		{
 			strncpy(buffer+a, b, n);
 			buffer[a+n]='\0';
 			argv[c]=buffer+a;
-			printf("%s#\n", argv[c]);
+			//printf("%s#\n", argv[c]);
 			c++;  a+=n+1;
 			while(*e==' ')
 				e++;
@@ -102,7 +102,6 @@ int CMD_read_adc(int argc, char *argv[], char *outs[], size_t *outl)
 
 	if(argc!=2)
 		return -1;
-
 
 	c = atoi(argv[1]);
 	ADCValue[c] = ADCRead( c );
