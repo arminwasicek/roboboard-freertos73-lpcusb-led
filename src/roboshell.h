@@ -16,6 +16,7 @@
 
 #include "FreeRTOS.h"
 #include "adc.h"
+#include "gpio.h"
 
 
 /********** DEFINITIONS **********************/
@@ -53,6 +54,8 @@ int CLI_register(CLI_Command_Callback_Definition_t *cd);
 int CLI_parse(char *s, char **argv, int *argc, char *buffer);
 int CLI_process(int argc, char **argv);
 
-int CMD_read_adc(int argc, char *argv[], char *outs[], size_t *outl);
+int CMD_read_adc(int argc, char *argv[], char outs[], size_t outl);
+int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl);
+
 
 #endif /* ROBOSHELL_H_ */

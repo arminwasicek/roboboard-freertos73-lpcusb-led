@@ -82,7 +82,7 @@ int CLI_process(int argc, char **argv)
 		{
 			if(strcmp(p->command->command_str, argv[0])==0)
 			{
-				printf("Found: %s\n", p->command->command_str);
+				//printf("Found: %s\r\n", p->command->command_str);
 				while((r=p->command->command_func(argc, argv, out, sizeof(out) ))>0)
 				{
 					printf("%s", out);
@@ -96,7 +96,7 @@ int CLI_process(int argc, char **argv)
 	return 0;
 }
 
-int CMD_read_adc(int argc, char *argv[], char *outs[], size_t *outl)
+int CMD_read_adc(int argc, char *argv[], char outs[], size_t outl)
 {
 	unsigned int v=0, c=0;
 
@@ -109,9 +109,28 @@ int CMD_read_adc(int argc, char *argv[], char *outs[], size_t *outl)
 	ADCIntDone = 0;
 	v = ADCValue[c];
 
-	sprintf(*outs, "adc=%d\r\n\0", v);
+	//TODO outs bounds check using outl
+	sprintf(outs, "adc=%d\r\n\0", v);
+	outl=outl;
 
-	*outl=sizeof(outs);
+	//one line to print
+	return 0;
+}
 
-	return *outl;
+int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
+{
+	unsigned int c=0, p=-1;
+
+	if(argc!=3)
+		return -1;
+
+	p = atoi(argv[1]);
+	c = atoi(argv[2]);
+
+	if(c==1)
+		gpio_set(p);
+	else
+		gpio_clear(p);
+
+	return 0;
 }

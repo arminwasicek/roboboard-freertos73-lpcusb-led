@@ -138,6 +138,7 @@ int main( void )
 	/* Configure the hardware for use by this demo. */
 	prvSetupHardware();
 	led_init();
+	gpio_init();
 	mcpwm_init();
 	ADCInit(ADC_CLK);
 

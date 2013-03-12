@@ -27,12 +27,17 @@ void roboshelltask(void)
 	int c, i=0;
 
 	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
-
-	cmd->command_str="getadc";
-	cmd->command_func=CMD_read_adc;
-	cmd->help_str="usage: getadc <xhannel>";
+	cmd->command_str="adc";
+	cmd->command_func=(CLI_Command_Callback_t)CMD_read_adc;
+	cmd->help_str="usage: adc <channel>";
 	cmd->parameter_count=1;
+	CLI_register(cmd);
 
+	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
+	cmd->command_str="gpio";
+	cmd->command_func=(CLI_Command_Callback_t)CMD_set_gpio;
+	cmd->help_str="usage: gpio <pin>";
+	cmd->parameter_count=1;
 	CLI_register(cmd);
 
 	VCOM_puts(pcWelcomeMessage);
@@ -72,11 +77,12 @@ void roboshelltask(void)
 				VCOM_putchar(0x0a);  //line feed
 				inbuf[i]='\r';
 				inbuf[i+1]=0xa;
-				VCOM_puts((char*)inbuf);
+				VCOM_puts((char*)inbuf); //reprint line
 				i=0;
 				CLI_parse(inbuf, argvbufp, &argcbuf, argvbuf);
+				CLI_process(argcbuf, argvbufp);
 				memset(inbuf, 0, INBUFLEN);
-				break;
+				break ;
 
 			default:
 				// save to input buffer
