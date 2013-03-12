@@ -117,6 +117,7 @@ int CMD_read_adc(int argc, char *argv[], char outs[], size_t outl)
 	return 0;
 }
 
+
 int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
 {
 	unsigned int c=0, p=-1;
@@ -131,6 +132,21 @@ int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
 		gpio_set(p);
 	else
 		gpio_clear(p);
+
+	return 0;
+}
+
+
+int CMD_select_gpio(int argc, char *argv[], char outs[], size_t outl)
+{
+	unsigned int v=0;
+
+	if(argc!=2)
+		return -1;
+
+	v = atoi(argv[1]);
+
+	gpio_select(v);
 
 	return 0;
 }

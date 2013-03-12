@@ -36,7 +36,14 @@ void roboshelltask(void)
 	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
 	cmd->command_str="gpio";
 	cmd->command_func=(CLI_Command_Callback_t)CMD_set_gpio;
-	cmd->help_str="usage: gpio <pin>";
+	cmd->help_str="usage: gpio <pin> <val>";
+	cmd->parameter_count=2;
+	CLI_register(cmd);
+
+	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
+	cmd->command_str="sel";
+	cmd->command_func=(CLI_Command_Callback_t)CMD_select_gpio;
+	cmd->help_str="usage: sel <pin>";
 	cmd->parameter_count=1;
 	CLI_register(cmd);
 
@@ -77,7 +84,7 @@ void roboshelltask(void)
 				VCOM_putchar(0x0a);  //line feed
 				inbuf[i]='\r';
 				inbuf[i+1]=0xa;
-				VCOM_puts((char*)inbuf); //reprint line
+				//VCOM_puts((char*)inbuf); //reprint line
 				i=0;
 				CLI_parse(inbuf, argvbufp, &argcbuf, argvbuf);
 				CLI_process(argcbuf, argvbufp);

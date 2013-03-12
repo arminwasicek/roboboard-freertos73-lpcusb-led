@@ -46,7 +46,16 @@ inline void gpio_xselect(int pin)
 	if((pin<PIN0) || (pin>PIN2))
 		return ;
 
-	LPC_GPIO0->FIOCLR |= ((~(1<<pin) << 6) & 0x00000380);
-	LPC_GPIO0->FIOSET |= ((1<<pin) << 6);
+	LPC_GPIO0->FIOCLR |= ((~(1<<pin) << 7) & 0x00000380);
+	LPC_GPIO0->FIOSET |= ((1<<pin) << 7);
 
+}
+
+inline void gpio_select(int n)
+{
+	if( (n<0) && (n>7) )
+		return ;
+
+	LPC_GPIO0->FIOCLR |= (0x00000380);
+	LPC_GPIO0->FIOSET |= (n << 7);
 }

@@ -23,6 +23,6 @@ inline void gpio_init(void);
 inline void gpio_set(int pin);
 inline void gpio_clear(int pin);
 inline void gpio_xselect(int pin);
-
+inline void gpio_select(int n);
 
 #endif /* GPIO_H_ */
