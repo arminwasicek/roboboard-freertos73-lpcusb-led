@@ -122,12 +122,12 @@ tick hook. */
 static void prvSetupHardware( void );
 
 /*
- * The task that handles the USB stack.
+ * The task declaration
  */
 extern void vUSBTask( void *pvParameters );
 extern void vLEDTask( void *pvParameters );
 extern void vMCPWMTask( void *pvParameters );
-
+extern void vSensorTask( void *pvParameters );
 
 /*-----------------------------------------------------------*/
 
@@ -146,6 +146,7 @@ int main( void )
     xTaskCreate( vUSBTask, ( signed char * ) "USB", 2*configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vLEDTask, ( signed char * ) "LED", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vMCPWMTask, ( signed char * ) "PWM", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vSensorTask, ( signed char * ) "SENSE", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
 
     /* Start the scheduler. */
 	vTaskStartScheduler();
