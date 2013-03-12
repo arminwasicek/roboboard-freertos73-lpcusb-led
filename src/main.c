@@ -122,12 +122,14 @@ tick hook. */
 static void prvSetupHardware( void );
 
 /*
- * The task declaration
+ * The task declarations
  */
 extern void vUSBTask( void *pvParameters );
 extern void vLEDTask( void *pvParameters );
 extern void vMCPWMTask( void *pvParameters );
 extern void vSensorTask( void *pvParameters );
+extern void vControlTask( void *pvParameters );
+
 
 /*-----------------------------------------------------------*/
 
@@ -147,6 +149,7 @@ int main( void )
     xTaskCreate( vLEDTask, ( signed char * ) "LED", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vMCPWMTask, ( signed char * ) "PWM", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vSensorTask, ( signed char * ) "SENSE", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vControlTask, ( signed char * ) "CONT", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
 
     /* Start the scheduler. */
 	vTaskStartScheduler();
@@ -290,7 +293,7 @@ const unsigned long TCR_COUNT_RESET = 2, CTCR_CTM_TIMER = 0x00, TCR_COUNT_ENABLE
 
 	/* This function configures a timer that is used as the time base when
 	collecting run time statistical information - basically the percentage
-	of CPU time that each task is utilising.  It is called automatically when
+	of CPU time that each task is utilizing.  It is called automatically when
 	the scheduler is started (assuming configGENERATE_RUN_TIME_STATS is set
 	to 1). */
 
