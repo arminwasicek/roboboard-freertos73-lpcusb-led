@@ -22,6 +22,10 @@
 
 #include <stdint.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+
 /* In DMA mode, BURST mode and ADC_INTERRUPT flag need to be set. */
 /* In BURST mode, ADC_INTERRUPT need to be set. */
 #define ADC_INTERRUPT_FLAG	1	/* 1 is interrupt driven, 0 is polling */
@@ -36,6 +40,14 @@
 
 #define ADC_NUM			4		/* for LPCxxxx */
 #define ADC_CLK			1000000		/* set to 1Mhz */
+
+#define ADCQ_BUFFER_LEN		( ADC_NUM * 4 * sizeof(ADCMeasurementItem_t) )
+
+typedef struct {
+	uint32_t c;
+	uint32_t m;
+	portTickType t;
+} ADCMeasurementItem_t;
 
 extern void ADC_IRQHandler( void );
 extern void ADCInit( uint32_t ADC_Clk );

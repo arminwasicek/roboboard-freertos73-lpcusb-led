@@ -101,6 +101,7 @@
 #include "led.h"
 #include "mcpwm.h"
 #include "adc.h"
+#include "gpio.h"
 
 #include "system_LPC17xx.h"
 

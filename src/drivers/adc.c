@@ -27,12 +27,11 @@
 #define _BV(_x_) (1UL << (_x_))
 #endif
 
-volatile uint32_t asd;
 volatile uint32_t ADCValue[ADC_NUM];
 volatile uint32_t ADCIntDone = 0;
-volatile uint32_t BurstCounter = 0;
 volatile uint32_t OverRunCounter = 0;
 
+static xQueueHandle xAdcQueue = NULL;
 
 #if ADC_INTERRUPT_FLAG
 /******************************************************************************
@@ -97,6 +96,10 @@ void ADC_IRQHandler (void)
 void ADCInit( uint32_t ADC_Clk )
 {
   uint32_t i, pclkdiv, pclk;
+
+  /* Allocate a queue to store measurements */
+  xAdcQueue = xQueueCreate( ADCQ_BUFFER_LEN, sizeof(ADCMeasurementItem_t) );
+
 
   /* Enable CLOCK into ADC controller */
   LPC_SC->PCONP |= (1 << 12);

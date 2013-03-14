@@ -5,6 +5,8 @@
  *      Author: armin
  */
 
+#include "FreeRTOS.h"
+#include "task.h"
 
 void vSensorTask( void *pvParameters )
 {

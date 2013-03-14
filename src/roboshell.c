@@ -122,6 +122,9 @@ int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
 {
 	unsigned int c=0, p=-1;
 
+	outl=outl;
+	outs=outs;
+
 	if(argc!=3)
 		return -1;
 
@@ -140,6 +143,9 @@ int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
 int CMD_select_gpio(int argc, char *argv[], char outs[], size_t outl)
 {
 	unsigned int v=0;
+
+	outl=outl;
+	outs=outs;
 
 	if(argc!=2)
 		return -1;
