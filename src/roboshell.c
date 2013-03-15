@@ -74,7 +74,7 @@ int CLI_process(int argc, char **argv)
 {
 	CLI_Command_Callback_List_Item_t *p;
 	int r;
-	char out[16]="";
+	char out[64]="";
 
 	if(command_list_head!=NULL)
 	{
@@ -117,6 +117,19 @@ int CMD_read_adc(int argc, char *argv[], char outs[], size_t outl)
 	return 0;
 }
 
+int CMD_read_adc_queue(int argc, char *argv[], char outs[], size_t outl)
+{
+	static ADCMeasurementItem_t m;
+
+	outl=outl;
+
+	if(ADCReceiveQueue(&m)!=NULL)
+	{
+		sprintf(outs, "%d %d %d %d\r\n\0", m.m[0], m.m[1], m.m[2], m.m[3]);
+	}
+
+	return 0;
+}
 
 int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl)
 {

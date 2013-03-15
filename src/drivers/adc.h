@@ -20,6 +20,7 @@
 #ifndef __ADC_H 
 #define __ADC_H
 
+#include <string.h>
 #include <stdint.h>
 
 #include "FreeRTOS.h"
@@ -44,14 +45,14 @@
 #define ADCQ_BUFFER_LEN		( ADC_NUM * 4 * sizeof(ADCMeasurementItem_t) )
 
 typedef struct {
-	uint32_t c;
-	uint32_t m;
+	uint32_t m[ADC_NUM];
 	portTickType t;
 } ADCMeasurementItem_t;
 
 extern void ADC_IRQHandler( void );
 extern void ADCInit( uint32_t ADC_Clk );
 extern uint32_t ADCRead( uint8_t channelNum );
+extern ADCMeasurementItem_t *ADCReceiveQueue(ADCMeasurementItem_t *m);
 
 extern volatile uint32_t ADCIntDone;
 extern volatile uint32_t ADCValue[];

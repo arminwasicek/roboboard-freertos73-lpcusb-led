@@ -47,6 +47,14 @@ void roboshelltask(void)
 	cmd->parameter_count=1;
 	CLI_register(cmd);
 
+	cmd = (CLI_Command_Callback_Definition_t *)pvPortMalloc(sizeof(CLI_Command_Callback_Definition_t));
+	cmd->command_str="adcq";
+	cmd->command_func=(CLI_Command_Callback_t)CMD_read_adc_queue;
+	cmd->help_str="usage: adcq";
+	cmd->parameter_count=0;
+	CLI_register(cmd);
+
+
 	VCOM_puts(pcWelcomeMessage);
 
 	// echo any character received (do USB stuff in interrupt)

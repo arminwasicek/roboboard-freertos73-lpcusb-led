@@ -49,6 +49,7 @@ void ADC_IRQHandler (void)
   volatile uint32_t dummy=dummy;
   int i;
   uint32_t *adcdata = &LPC_ADC->ADDR0;
+  ADCMeasurementItem_t mrec;
   
   regVal = LPC_ADC->ADSTAT;		/* Read ADC will clear the interrupt */
   if ( regVal & 0x0000FF00 )	/* check OVERRUN error first */
@@ -74,8 +75,11 @@ void ADC_IRQHandler (void)
     if ( regVal & _BV(i) )
 	{
 	  ADCValue[i] = ( adcdata[i] >> 4 ) & 0xFFF;
+	  mrec.m[i] = ( adcdata[i] >> 4 ) & 0xFFF;
 	}
   }
+  mrec.t = xTaskGetTickCountFromISR();
+  xQueueSendToBackFromISR(xAdcQueue, &mrec, NULL);
 
   LPC_ADC->ADCR &= ~(0x7<<24);	/* stop ADC now */
   ADCIntDone = 1;
@@ -186,7 +190,17 @@ uint32_t ADCRead( uint8_t channelNum )
 							done inside the handler. so, return channel number */
 }
 
+ADCMeasurementItem_t *ADCReceiveQueue(ADCMeasurementItem_t *m)
+{
+	portBASE_TYPE xTaskWokenByReceive = pdFALSE;
 
+	if( xQueueReceiveFromISR( xAdcQueue, ( void * ) m, &xTaskWokenByReceive) )
+	{
+		return m;
+	}
+
+	return NULL;
+}
 
 /*********************************************************************************
 **                            End Of File

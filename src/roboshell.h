@@ -55,6 +55,7 @@ int CLI_parse(char *s, char **argv, int *argc, char *buffer);
 int CLI_process(int argc, char **argv);
 
 int CMD_read_adc(int argc, char *argv[], char outs[], size_t outl);
+int CMD_read_adc_queue(int argc, char *argv[], char outs[], size_t outl);
 int CMD_set_gpio(int argc, char *argv[], char outs[], size_t outl);
 int CMD_select_gpio(int argc, char *argv[], char outs[], size_t outl);
 
