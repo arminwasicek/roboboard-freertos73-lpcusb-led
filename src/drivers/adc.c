@@ -30,6 +30,7 @@
 volatile uint32_t ADCValue[ADC_NUM];
 volatile uint32_t ADCIntDone = 0;
 volatile uint32_t OverRunCounter = 0;
+volatile uint8_t ADCCurrentChannel = 0;
 
 volatile xQueueHandle xAdcQueue = NULL;
 volatile xSemaphoreHandle xAdcSem = NULL;
@@ -77,13 +78,16 @@ void ADC_IRQHandler (void)
     if ( regVal & _BV(i) )
 	{
 	  ADCValue[i] = ( adcdata[i] >> 4 ) & 0xFFF;
-	  mrec.m[i] = ( adcdata[i] >> 4 ) & 0xFFF;
+	  if(ADCCurrentChannel==i)
+		  mrec.m = ( adcdata[i] >> 4 ) & 0xFFF;
 	}
   }
+  LPC_ADC->ADCR &= ~(0x7<<24);	/* stop ADC now */
+
+  mrec.c = ADCCurrentChannel;
   mrec.t = xTaskGetTickCountFromISR();
   xQueueSendToBackFromISR(xAdcQueue, &mrec, NULL);
 
-  LPC_ADC->ADCR &= ~(0x7<<24);	/* stop ADC now */
   ADCIntDone = 1;
   xSemaphoreGiveFromISR( xAdcSem, &xHigherPriorityTaskWoken );
 
@@ -107,7 +111,7 @@ void ADCInit( uint32_t ADC_Clk )
   /* Allocate a queue to store measurements */
   xAdcQueue = xQueueCreate( ADCQ_BUFFER_LEN, sizeof(ADCMeasurementItem_t) );
 
-  /* Allocate a semaphore for ISR-task sync   */
+  /* Allocate a mutex semaphore to sync multiple adcread invokations   */
   xAdcSem = xSemaphoreCreateMutex();
 
   /* Enable CLOCK into ADC controller */
@@ -180,18 +184,26 @@ void ADCInit( uint32_t ADC_Clk )
 *****************************************************************************/
 uint32_t ADCRead( uint8_t channelNum )
 {
-  //const volatile uint32_t *adcdata = &LPC_ADC->ADDR0;
 
-  /* channel number is 0 through 7 */
-  if ( channelNum >= ADC_NUM )
-  {
-	channelNum = 0;		/* reset channel number to 0 */
-  }
-  LPC_ADC->ADCR &= 0xFFFFFF00;
-  LPC_ADC->ADCR |= (1 << 24) | (1 << channelNum);
-				/* switch channel,start A/D convert */
+	if( xAdcSem != NULL )
+	{
+		if( xSemaphoreTake( xAdcSem, ADC_READ_WAIT_LONG_TIME_FOR_MUTEX ) == pdTRUE )
+	    {
+			  //const volatile uint32_t *adcdata = &LPC_ADC->ADDR0;
+			  ADCCurrentChannel = channelNum;
 
-  return ( channelNum );	/* if it's interrupt driven, the ADC reading is 
+			  /* channel number is 0 through 7 */
+			  if ( channelNum >= ADC_NUM )
+			  {
+				channelNum = 0;		/* reset channel number to 0 */
+			  }
+			  LPC_ADC->ADCR &= 0xFFFFFF00;
+			  LPC_ADC->ADCR |= (1 << 24) | (1 << channelNum);
+							/* switch channel,start A/D convert */
+	    }
+	}
+
+	return ( channelNum );	/* if it's interrupt driven, the ADC reading is
 							done inside the handler. so, return channel number */
 }
 

@@ -15,8 +15,6 @@
 #define LINE_CHAN 0
 #define BW_THRESHOLD 2100
 
-#define LONG_TIME 0xffff
-
 int line[LINE_LEN];
 
 void vSensorTask( void *pvParameters )
@@ -32,12 +30,17 @@ void vSensorTask( void *pvParameters )
 	{
 		// Read sensor on ADC channel
 		ADCRead(LINE_CHAN);
+
 		//Wait until ADC is ready
-		if( xSemaphoreTake( xAdcSem, LONG_TIME ) == pdTRUE )
+		if( ADCReceiveQueue(&m)!=NULL )
 		{
-			ADCReceiveQueue(&m);
-			printf("adc0=%d\r\n", m.m[0]);
+			printf("adc0=%d\r\n", m.m);
+			if(m.m>BW_THRESHOLD)
+				line[i]=1;
+			else
+				line[i]=0;
 		}
+
 
 /*
 		// Scan line

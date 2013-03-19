@@ -46,9 +46,11 @@
 
 #define ADCQ_BUFFER_LEN		( ADC_NUM * 4 * sizeof(ADCMeasurementItem_t) )
 #define ADC_REC_TICKS_TO_WAIT     ((portTickType) 10)
+#define ADC_READ_WAIT_LONG_TIME_FOR_MUTEX 0xffff
 
 typedef struct {
-	uint32_t m[ADC_NUM];
+	uint16_t m;
+	uint8_t c;
 	portTickType t;
 } ADCMeasurementItem_t;
 

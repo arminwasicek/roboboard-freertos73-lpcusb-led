@@ -125,7 +125,7 @@ int CMD_read_adc_queue(int argc, char *argv[], char outs[], size_t outl)
 
 	if(ADCReceiveQueue(&m)!=NULL)
 	{
-		sprintf(outs, "%d %d %d %d\r\n\0", m.m[0], m.m[1], m.m[2], m.m[3]);
+		sprintf(outs, "adc%d m=%d t=%d\r\n\0", m.c, m.m, m.t);
 	}
 
 	return 0;
