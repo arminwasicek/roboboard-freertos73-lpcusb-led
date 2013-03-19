@@ -31,7 +31,8 @@ volatile uint32_t ADCValue[ADC_NUM];
 volatile uint32_t ADCIntDone = 0;
 volatile uint32_t OverRunCounter = 0;
 
-static xQueueHandle xAdcQueue = NULL;
+volatile xQueueHandle xAdcQueue = NULL;
+volatile xSemaphoreHandle xAdcSem = NULL;
 
 #if ADC_INTERRUPT_FLAG
 /******************************************************************************
@@ -50,6 +51,7 @@ void ADC_IRQHandler (void)
   int i;
   uint32_t *adcdata = &LPC_ADC->ADDR0;
   ADCMeasurementItem_t mrec;
+  static signed portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
   
   regVal = LPC_ADC->ADSTAT;		/* Read ADC will clear the interrupt */
   if ( regVal & 0x0000FF00 )	/* check OVERRUN error first */
@@ -83,6 +85,7 @@ void ADC_IRQHandler (void)
 
   LPC_ADC->ADCR &= ~(0x7<<24);	/* stop ADC now */
   ADCIntDone = 1;
+  xSemaphoreGiveFromISR( xAdcSem, &xHigherPriorityTaskWoken );
 
   return;
 }
@@ -104,6 +107,8 @@ void ADCInit( uint32_t ADC_Clk )
   /* Allocate a queue to store measurements */
   xAdcQueue = xQueueCreate( ADCQ_BUFFER_LEN, sizeof(ADCMeasurementItem_t) );
 
+  /* Allocate a semaphore for ISR-task sync   */
+  xAdcSem = xSemaphoreCreateMutex();
 
   /* Enable CLOCK into ADC controller */
   LPC_SC->PCONP |= (1 << 12);
@@ -192,15 +197,17 @@ uint32_t ADCRead( uint8_t channelNum )
 
 ADCMeasurementItem_t *ADCReceiveQueue(ADCMeasurementItem_t *m)
 {
-	portBASE_TYPE xTaskWokenByReceive = pdFALSE;
-
-	if( xQueueReceiveFromISR( xAdcQueue, ( void * ) m, &xTaskWokenByReceive) )
+	if(xAdcQueue != NULL)
 	{
-		return m;
+		if( xQueueReceive( xAdcQueue, ( void * ) m, ADC_REC_TICKS_TO_WAIT) )
+		{
+			return m;
+		}
 	}
 
 	return NULL;
 }
+
 
 /*********************************************************************************
 **                            End Of File

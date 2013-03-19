@@ -26,6 +26,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "semphr.h"
+
 
 /* In DMA mode, BURST mode and ADC_INTERRUPT flag need to be set. */
 /* In BURST mode, ADC_INTERRUPT need to be set. */
@@ -43,6 +45,7 @@
 #define ADC_CLK			1000000		/* set to 1Mhz */
 
 #define ADCQ_BUFFER_LEN		( ADC_NUM * 4 * sizeof(ADCMeasurementItem_t) )
+#define ADC_REC_TICKS_TO_WAIT     ((portTickType) 10)
 
 typedef struct {
 	uint32_t m[ADC_NUM];
@@ -56,6 +59,7 @@ extern ADCMeasurementItem_t *ADCReceiveQueue(ADCMeasurementItem_t *m);
 
 extern volatile uint32_t ADCIntDone;
 extern volatile uint32_t ADCValue[];
+extern volatile xSemaphoreHandle xAdcSem;
 
 #endif /* end __ADC_H */
 /*****************************************************************************

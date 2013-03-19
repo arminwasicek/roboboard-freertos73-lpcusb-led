@@ -149,7 +149,7 @@ int main( void )
     xTaskCreate( vUSBTask, ( signed char * ) "USB", 2*configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vLEDTask, ( signed char * ) "LED", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vMCPWMTask, ( signed char * ) "PWM", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
-    xTaskCreate( vSensorTask, ( signed char * ) "SENSE", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vSensorTask, ( signed char * ) "SENSE", 2*configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
     xTaskCreate( vControlTask, ( signed char * ) "CONT", configMINIMAL_STACK_SIZE, ( void * ) NULL, tskIDLE_PRIORITY, NULL );
 
     /* Start the scheduler. */
